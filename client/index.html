@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Tetris 1v1</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Tela inicial -->
+  <section id="menu-screen" class="screen card">
+    <h1>Tetris 1v1</h1>
+    <label>Apelido
+      <input id="nickname" maxlength="16" placeholder="Seu apelido">
+    </label>
+    <button id="create-room">Criar sala</button>
+    <div class="row">
+      <input id="room-code" maxlength="5" placeholder="Código">
+      <button id="join-room">Entrar</button>
+    </div>
+    <button id="training" class="secondary">Treino (single-player)</button>
+    <p id="menu-error" class="error"></p>
+    <p id="build-version" class="build-version"></p>
+  </section>
+
+  <!-- Sala de espera -->
+  <section id="lobby-screen" class="screen card" hidden>
+    <h2>Sala <span id="lobby-code" class="code"></span></h2>
+    <p class="muted">Estado: <strong id="lobby-state"></strong></p>
+    <ul id="lobby-players" class="players"></ul>
+    <button id="ready">Pronto</button>
+    <p class="muted small">Passe o código para o adversário entrar.</p>
+  </section>
+
+  <!-- Jogo -->
+  <main id="game-screen" class="screen game" hidden>
+    <aside class="panel">
+      <h2>Hold</h2>
+      <canvas id="hold" width="120" height="120"></canvas>
+      <div id="effect-badge" class="effect-badge" hidden>
+        <span id="effect-icon" class="effect-icon"></span>
+        <span id="effect-name"></span>
+      </div>
+    </aside>
+
+    <canvas id="garbage-bar" class="garbage-bar" width="12" height="600" hidden></canvas>
+
+    <div class="board-wrapper">
+      <canvas id="board" width="300" height="600"></canvas>
+      <div id="attack-info" class="attack-info"></div>
+      <div id="overlay" class="overlay" hidden>
+        <p id="overlay-title"></p>
+        <p id="overlay-subtitle" class="small"></p>
+        <button id="play-again" hidden>Jogar de novo</button>
+      </div>
+    </div>
+
+    <aside class="panel">
+      <h2>Próxima</h2>
+      <canvas id="next" width="120" height="120"></canvas>
+      <dl class="stats">
+        <dt>Pontos</dt><dd id="score">0</dd>
+        <dt>Linhas</dt><dd id="lines">0</dd>
+        <dt>Nível</dt><dd id="level">1</dd>
+      </dl>
+      <ul class="help">
+        <li>A / D: mover</li>
+        <li>W: soft drop</li>
+        <li>S: hard drop</li>
+        <li>← / →: girar anti-horário / horário</li>
+        <li>↑: girar 180°</li>
+        <li>Shift: hold</li>
+        <li>Esc: desistir</li>
+        <li id="help-retry">R: reiniciar</li>
+      </ul>
+    </aside>
+
+    <aside id="powerup-panel" class="panel powerup-panel" hidden>
+      <h2>Power-up</h2>
+      <div id="powerup-box" class="powerup-box">
+        <span id="powerup-icon" class="powerup-icon">–</span>
+        <span id="powerup-label" class="small"></span>
+        <span id="powerup-timer" class="powerup-timer"></span>
+      </div>
+      <p class="muted small">Limpe 2+ linhas de uma vez para pegar</p>
+    </aside>
+
+    <aside id="opponent-panel" class="panel" hidden>
+      <h2 id="opponent-name">Adversário</h2>
+      <canvas id="opponent-board" width="150" height="300"></canvas>
+    </aside>
+  </main>
+
+  <!-- Sincronização de relógio (Cristian) -->
+  <div id="clock-info" class="clock-info">sincronizando relógio...</div>
+
+  <!-- Aviso de latência simulada ativa (para ninguém esquecer ligado) -->
+  <div id="latency-badge" class="latency-badge" hidden></div>
+
+  <!-- Painel de debug: F2 abre/fecha -->
+  <aside id="debug-panel" class="debug-panel" hidden>
+    <h2>Debug <span class="muted small">(F2 fecha)</span></h2>
+    <dl class="debug-stats">
+      <dt>Conexão</dt><dd id="dbg-connection">—</dd>
+      <dt>RTT</dt><dd id="dbg-rtt">—</dd>
+      <dt>Offset (Cristian)</dt><dd id="dbg-offset">—</dd>
+      <dt>Último seq enviado</dt><dd id="dbg-seq">0</dd>
+      <dt>Estado da sala</dt><dd id="dbg-room">—</dd>
+    </dl>
+
+    <h3>Latência artificial (esta aba)</h3>
+    <label>Atraso <span id="dbg-delay-value">0 ms</span>
+      <input id="dbg-delay" type="range" min="0" max="1000" step="10" value="0">
+    </label>
+    <label>Jitter <span id="dbg-jitter-value">0 ms</span>
+      <input id="dbg-jitter" type="range" min="0" max="300" step="10" value="0">
+    </label>
+    <label class="debug-check">
+      <input id="dbg-reorder" type="checkbox"> permitir reordenação
+    </label>
+    <p class="muted small">Vale para o que esta aba envia e recebe. Sem
+      reordenação, as mensagens saem em ordem (como no TCP).</p>
+
+    <h3>Falha</h3>
+    <div class="row">
+      <button id="dbg-drop">Simular queda</button>
+      <button id="dbg-reconnect" class="secondary">Reconectar</button>
+    </div>
+  </aside>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module" src="main.js"></script>
+</body>
+</html>

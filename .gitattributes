@@ -1,0 +1,3 @@
+# Guarda texto com fim de linha LF no repositório (o Render roda em Linux);
+# no Windows o git converte para CRLF ao fazer checkout.
+* text=auto eol=lf

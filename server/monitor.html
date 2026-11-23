@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Monitor do servidor — Tetris 1v1</title>
+  <link rel="stylesheet" href="/monitor.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Monitor do servidor</h1>
+    <span id="status" class="status">conectando...</span>
+    <label>Sala
+      <select id="room-filter">
+        <option value="">todas</option>
+        <option value="__auto">sala atual (automático)</option>
+      </select>
+    </label>
+    <label class="check"><input type="checkbox" id="hide-clock" checked> ocultar relógio</label>
+    <label class="check"><input type="checkbox" id="only-conflicts"> só conflitos</label>
+    <button id="clear-log" class="secondary">Limpar</button>
+    <button id="toggle-compact" class="secondary">Modo compacto</button>
+    <span id="version" class="version"></span>
+  </header>
+
+  <!-- Só no modo compacto: uma linha com a sala acompanhada -->
+  <div id="compact-room" class="compact-room"></div>
+
+  <main class="layout">
+    <section class="rooms-section">
+      <h2>Salas</h2>
+      <div id="rooms" class="rooms"><p class="muted">nenhuma sala</p></div>
+    </section>
+
+    <section class="timeline-section">
+      <h2>Eventos <span class="muted small">(timestamp do servidor, mais recentes em cima)</span></h2>
+      <!-- legenda das cores de conflito (também no modo compacto) -->
+      <ul class="legend">
+        <li class="tag-disputa">disputa de power-up</li>
+        <li class="tag-cancelamento">lixo cancelado</li>
+        <li class="tag-escudo">escudo</li>
+        <li class="tag-seq">descartado por seq</li>
+        <li class="tag-queda">queda / pausa</li>
+        <li class="tag-retomada">retomada</li>
+      </ul>
+      <ol id="timeline" class="timeline"></ol>
+    </section>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module" src="/monitor.js"></script>
+</body>
+</html>

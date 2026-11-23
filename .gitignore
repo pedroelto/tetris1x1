@@ -1,0 +1,21 @@
+# Dependências (reinstaladas com npm ci)
+node_modules/
+
+# Variáveis de ambiente e segredos (ex.: MONITOR_KEY)
+.env
+.env.*
+
+# Logs
+*.log
+npm-debug.log*
+
+# Arquivos do sistema operacional
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editores e ferramentas
+.vscode/
+.idea/
+*.swp
+.claude/settings.local.json

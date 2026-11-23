@@ -1,0 +1,22 @@
+{
+  "name": "tetris-1v1",
+  "version": "0.1.0",
+  "description": "Tetris multiplayer 1v1 - trabalho de Computação Distribuída",
+  "type": "module",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "test": "node tests/engine.test.js && node tests/protocol.test.js && node tests/reconnect.test.js && node tests/demo.test.js && node tests/production.test.js"
+  },
+  "engines": {
+    "node": "26.x"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "socket.io-client": "^4.8.1"
+  }
+}

@@ -1,0 +1,18 @@
+# Blueprint do Render: um único Web Service Node.
+# Uma instância só: o estado das salas fica em memória (ver docs/decisoes.md).
+services:
+  - type: web
+    name: tetris-1v1
+    runtime: node
+    plan: free
+    region: virginia
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Chave do monitor (/monitor?key=...). Preenchida no painel do Render;
+      # sem ela, em produção o monitor fica desativado.
+      - key: MONITOR_KEY
+        sync: false
